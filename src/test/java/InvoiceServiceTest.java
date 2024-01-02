@@ -36,4 +36,18 @@ public class InvoiceServiceTest {
         InvoiceSummary expected = new InvoiceSummary(2, 30);
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void invoice_service(){
+        String user1 = "abc";
+        cabInvoiceGenerator.addRides(user1, new Ride(10,6));
+        cabInvoiceGenerator.addRides(user1, new Ride(0.2,1));
+
+        InvoiceSummary actual = cabInvoiceGenerator.getInvoiceReport(user1);
+        InvoiceSummary expected = new InvoiceSummary(2, 111);
+
+        System.out.println(actual.total_number_of_rides + " " + actual.fare + " " + actual.average_fare_per_ride);
+
+        assertEquals(expected, actual);
+    }
 }
