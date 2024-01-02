@@ -11,13 +11,21 @@ public class CabInvoiceGenerator {
         return Math.max(total_fare, 5.0);
     }
 
-    public double CalculateFare(Ride[] rides)
-    {
+    // public double CalculateFare(Ride[] rides) {
+    //     double fare = 0;
+    //     for (Ride ride : rides) {
+    //         fare += CalculateFare(ride.distance, ride.time);
+    //     }
+    //     return fare;
+    // }
+
+    public InvoiceSummary CalculateFare(Ride[] rides) {
         double fare = 0;
-        for(Ride ride : rides)
-        {
+        for (Ride ride : rides) {
             fare += CalculateFare(ride.distance, ride.time);
         }
-        return fare;
+
+        InvoiceSummary invoiceSummary = new InvoiceSummary(rides.length,fare);
+        return invoiceSummary;
     }
 }
