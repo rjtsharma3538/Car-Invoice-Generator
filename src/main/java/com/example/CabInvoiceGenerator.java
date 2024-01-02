@@ -20,32 +20,38 @@ public class CabInvoiceGenerator {
         ridesList.get(user_id).add(ride);
     }
 
-    public double CalculateFare(double distance, double time) {
-        double total_fare = distance * COST_PER_KM + time * COST_PER_MINUTE;
-        return Math.max(total_fare, 5.0);
+    public double CalculateFare(double distance, double time, String type) {
+        //System.out.println(type);
+        if (type == "normal") {
+            double total_fare = distance * COST_PER_KM + time * COST_PER_MINUTE;
+            //System.out.println(total_fare);
+            return Math.max(total_fare, 5.0);
+        } else {
+            double total_fare = distance * 15 + time * 2;
+            //System.out.println(total_fare);
+            return Math.max(total_fare, 20);
+        }
     }
 
     public InvoiceSummary CalculateFare(Ride[] rides) {
         double fare = 0;
         for (Ride ride : rides) {
-            fare += CalculateFare(ride.distance, ride.time);
+            fare += CalculateFare(ride.distance, ride.time,ride.type);
         }
 
         InvoiceSummary invoiceSummary = new InvoiceSummary(rides.length, fare);
         return invoiceSummary;
     }
 
-    public InvoiceSummary getInvoiceReport(String user_id){
-        if(ridesList.containsKey(user_id)==false)
-        {
+    public InvoiceSummary getInvoiceReport(String user_id) {
+        if (ridesList.containsKey(user_id) == false) {
             return new InvoiceSummary(0, 0);
         }
 
         ArrayList<Ride> rides = ridesList.get(user_id);
         double fare = 0;
-        for(Ride ride : rides)
-        {
-            fare += CalculateFare(ride.distance, ride.time);
+        for (Ride ride : rides) {
+            fare += CalculateFare(ride.distance, ride.time,ride.type);
         }
 
         return new InvoiceSummary(rides.size(), fare);
